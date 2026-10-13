@@ -2,36 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mymodel;
+use App\Models\Mymodel2;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class MyController extends Controller
 {
-
-    public function my_view()
+    public function view()
     {
-
-        $datas = Mymodel::All();
-        // dd($datas);
-        return view('welcome', compact('datas'));
+        $Datas = Mymodel2::all();
+        return view('welcome', compact("Datas"));
     }
-
-
-    public function adddata()
+    public function add()
     {
-        return view('adddata');
+        return view('add');
     }
-    public function adddataPosted(Request $req)
+    public function adddata(Request $req)
     {
-        $Datas = new Mymodel;
+        $Datas = new Mymodel2;
         $Datas->name = $req->name;
         $Datas->email = $req->email;
         $Datas->save();
-        return redirect('/');
+        return Redirect::to('/');
     }
-    public function delete($id){
-        $datas=Mymodel::find($id);
-        $datas->delete();
-        return redirect('/');
+    public function deletedata($id)
+    {
+        $Datas = Mymodel2::find($id);
+        $Datas->delete();
+
+        return Redirect::to('/');
+    }
+    public function edit($id)
+    {
+        $Datas = Mymodel2::find($id);
+
+        return view('/edit',compact('Datas'));
+    }
+
+    public function edited(Request $req)
+    {
+        $Datas = Mymodel2::findOrFail($req->id);
+        $Datas->name = $req->name;
+        $Datas->email = $req->email;
+        $Datas->save();
+        return Redirect::to('/');
     }
 }

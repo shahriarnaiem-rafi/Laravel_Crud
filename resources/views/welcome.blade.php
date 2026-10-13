@@ -2,100 +2,118 @@
 <html lang="en">
 
 <head>
+    <title>CRUD Practice</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 min-h-screen">
 
-    <!-- Header -->
-    <header class="bg-white shadow-md">
-        <nav class="container mx-auto flex items-center justify-between px-6 py-4">
-            <h1 class="text-2xl font-bold text-blue-600">
-                My Website
-            </h1>
+    <div class="max-w-6xl mx-auto px-6 py-12">
 
-            <ul class="flex gap-6">
-                <li><a href="/" class="hover:text-blue-600">Home</a></li>
-                <li><a href="/adddata" class="hover:text-blue-600">Add Data</a></li>
+        <h3 class="text-center text-3xl font-bold text-gray-800 mb-8">
+            This is CRUD Practice
+        </h3>
 
-            </ul>
-        </nav>
-    </header>
+        <div class="bg-white rounded-xl shadow-md p-6">
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-700">
+                    User Data
+                </h2>
 
-        <!-- Hero Section -->
-        <section class="rounded-xl bg-blue-600 px-8 py-16 text-center text-white">
-            <h2 class="mb-4 text-4xl font-bold">
-                Welcome to My Website
-            </h2>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white
+                font-semibold px-5 py-2.5 rounded-lg shadow transition duration-200">
+                    <a href="/add">+ Add Data Form</a>
+                </button>
+            </div>
 
-            <p class="mb-6 text-lg">
-                Build modern and responsive websites with Tailwind CSS.
-            </p>
+            <div class="overflow-x-auto">
 
-            <a href="#"
-                class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-blue-600 hover:bg-gray-100">
-                Get Started
-            </a>
-        </section>
-        <section>
-            <h2 class="text-center text-2xl font-bold mt-10 uppercase bg-red-300">this is my table</h2>
-            <Table class="w-full border-collapse text-left border-2px">
-                <thead class="bg-blue-400 ">
-                    <tr>
-                        <th>id</th>
-                        <th>Name</th>
-                        <th>email</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if($datas->isnotempty())
-                    @foreach ($datas as $data)
-                    <tr>
-                        <td>{{$data->id }}</td>
-                        <td>{{$data->name }}</td>
-                        <td>{{$data->email }}</td>
-                        <td>
-                            <a href="#" class="btn">
-                                Edit
-                            </a>
-                            <form action="{{ route('delete',$data->id) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button href="" class="btn"> delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @else
-                    <tr>
-                        <td colspan="4" class="border p-3 text-center">
-                            No data found.
-                        </td>
-                    </tr>
-                    @endif
-                </tbody>
+                <table class="w-full text-left border-collapse">
 
-            </Table>
-        </section>
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th class="px-6 py-4 rounded-tl-lg">ID</th>
+                            <th class="px-6 py-4">Name</th>
+                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4 rounded-tr-lg text-center">Action</th>
+                        </tr>
+                    </thead>
 
+                    <tbody class="divide-y divide-gray-200">
 
+                        @if ($Datas->isnotempty())
 
+                        @foreach ($Datas as $Data)
 
-    </main>
+                        <tr class="hover:bg-blue-50 transition duration-200">
 
-    <!-- Footer -->
-    <footer class="mt-12 bg-gray-900 px-6 py-6 text-center text-white">
-        <p>&copy; 2026 My Website. All rights reserved.</p>
-    </footer>
+                            <td class="px-6 py-4 text-gray-600 font-medium">
+                                {{ $Data->id}}
+                            </td>
+
+                            <td class="px-6 py-4 text-gray-800 font-semibold">
+                                {{ $Data->name}}
+                            </td>
+
+                            <td class="px-6 py-4 text-gray-600">
+                                {{ $Data->email}}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <div class="flex justify-center items-center gap-3">
+
+                                    <a href="{{  route('edit',$Data->id)}}"
+                                    class="bg-amber-500 hover:bg-amber-600 text-white
+                                    px-4 py-2 rounded-md font-medium transition duration-200">
+                                        Edit
+                                    </a>
+
+                                    <form action="{{ route('delete',$Data->id) }}" method="post">
+                                        <button
+                                        class="bg-red-600 hover:bg-red-700 text-white
+                                        px-4 py-2 rounded-md font-medium transition duration-200">
+                                        @csrf
+                                        @method('DELETE')
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        @endforeach
+
+                        @else
+
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"
+                                class="text-center py-10 text-gray-500 text-lg">
+                                    No data available
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                        @endif
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <p class="text-center text-gray-400 text-sm mt-6">
+            CRUD Practice Dashboard
+        </p>
+
+    </div>
 
 </body>
 
